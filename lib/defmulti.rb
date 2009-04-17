@@ -8,10 +8,10 @@ module Defmulti
   end
 
   private
-  def defmulti(method_name, *args)
+  def defmulti(selector, *args)
     clauses = args.pop.to_a
     clauses = clauses.sort_by {|guard, _| guard.nil? ? 1 : 0}
-    define_method(method_name) do |*arguments|
+    define_method(selector) do |*arguments|
       clauses.each do |guard, code|
         if guard then
           guard_value = instance_eval(&guard)
