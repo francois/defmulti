@@ -14,9 +14,12 @@ module Defmulti
     define_method(method_name) do |*arguments|
       clauses.each do |guard, code|
         if guard then
-          break instance_eval(&code) if instance_eval(&guard)
-        else
+          next unless instance_eval(&guard)
+        end
+        if code.respond_to?(:call)
           break instance_eval(&code)
+        else
+          break code
         end
       end
     end
