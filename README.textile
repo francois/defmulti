@@ -1,0 +1,30 @@
+h1. defmulti
+
+NOTE: This gem runs perfectly fine on Ruby 1.9.1.
+
+This gem is an implementation of multi-method dispatching in Ruby.  This allows you to define multiple blocks of code that can execute, depending on certain conditions:
+
+<pre><code> require "defmulti"
+  
+  class Factorial
+    class << self
+      defmulti :generate,
+        lambda {|n| n == 1} => 1,
+        nil                 => lambda {|n| n * generate(n - 1) }
+    end
+  end
+  
+  Factorial.generate 1
+  #=> 1
+  Factorial.generate 2
+  #=> 2
+  Factorial.generate 3
+  #=> 6
+  Factorial.generate 4
+  #=> 24
+  Factorial.generate 5
+  #=> 120</code></pre>
+
+This is a thought experiment.  I was thinking about a language in which the if/then/else construct would not exist.  How would such a language evolve?  That is what I was trying to determine.
+
+NOTE: This isn't ready for production use.  Neither is it used in production anywhere.
