@@ -16,11 +16,9 @@ module Defmulti
         if guard then
           next unless instance_eval(&guard)
         end
-        if code.respond_to?(:call)
-          break instance_eval(&code)
-        else
-          break code
-        end
+
+        # Have to use break or else the #each call will continue
+        break code.respond_to?(:call) ? instance_eval(&code) : code
       end
     end
   end
