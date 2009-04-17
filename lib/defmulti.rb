@@ -18,7 +18,7 @@ module Defmulti
           next unless guard_value
         end
 
-        # Have to use break or else the #each call will continue
+        # Have to break or else #each will continue to the end
         break code.respond_to?(:call) ? instance_eval(&code) : code
       end
     end
