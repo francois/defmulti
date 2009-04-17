@@ -40,3 +40,14 @@ D "#defmulti raises MissingGuardClause when no else and no guards match" do
 
   E(Defmulti::MissingGuardClause) { AccountWithoutElse.new(0).balance_type }
 end
+
+D "#defmulti with simple return values" do
+  class AccountWithSimpleReturnValues < Account
+    defmulti :balance_type,
+      lambda { self.balance < 0 } => :negative,
+      nil                         => :positive
+  end
+
+  T { AccountWithSimpleReturnValues.new( 1).balance_type == :positive }
+  T { AccountWithSimpleReturnValues.new(-1).balance_type == :negative }
+end
