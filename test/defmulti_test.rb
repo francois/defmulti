@@ -66,7 +66,7 @@ D "#defmulti sends arguments along" do
 
   T { AccountWithArgument.account_type(:french)  == :actif }
   T { AccountWithArgument.account_type(:english) == :asset }
-  E("wrong number of arguments (0 for 1) ArgumentError") {
+  E("wrong number of arguments (0 for 1)", ArgumentError) {
     AccountWithArgument.account_type
   }
 end
