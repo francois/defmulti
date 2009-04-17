@@ -51,3 +51,19 @@ D "#defmulti with simple return values" do
   T { AccountWithSimpleReturnValues.new( 1).balance_type == :positive }
   T { AccountWithSimpleReturnValues.new(-1).balance_type == :negative }
 end
+
+D "#defmulti sends arguments along" do
+  class AccountWithArgument < Account
+    class << self
+      defmulti :account_type,
+        lambda {|language| language == :french}  => lambda {|language| :actif},
+        lambda {|language| language == :english} => lambda {|language| :asset}
+    end
+  end
+
+  T { AccountWithArgument.account_type(:french)  == :actif }
+  T { AccountWithArgument.account_type(:english) == :asset }
+  E("wrong number of arguments (0 for 1) ArgumentError") {
+    AccountWithArgument.account_type
+  }
+end
