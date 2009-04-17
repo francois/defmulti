@@ -14,7 +14,8 @@ module Defmulti
     define_method(method_name) do |*arguments|
       clauses.each do |guard, code|
         if guard then
-          next unless instance_eval(&guard)
+          guard_value = instance_eval(&guard)
+          next unless guard_value
         end
 
         # Have to use break or else the #each call will continue
